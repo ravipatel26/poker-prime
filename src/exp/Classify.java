@@ -8,6 +8,7 @@ import pet.eq.impl.*;
 
 /**
  * experimental class to classify straight draws
+ * this is a test by Rich
  */
 public class Classify {
 	public static void main(String[] args) {
