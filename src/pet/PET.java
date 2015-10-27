@@ -8,7 +8,10 @@ import pet.hp.History;
 import pet.ui.PokerFrame;
 
 /**
- * Main class for gui
+modified by Alain 10/19/2015
+*/
+/**
+ *  Main class for gui
  */
 public class PET {
 	
