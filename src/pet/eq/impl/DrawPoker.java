@@ -9,13 +9,13 @@ import pet.eq.*;
  */
 public class DrawPoker extends Poker {
 
-	private static void validateHole (String[] hole) {
+	private static void validateHole (String[] hole) { //checks if the hole contains between 1 and 5 cards
 		if (hole.length < 1 || hole.length > 5) {
 			throw new RuntimeException("invalid hole cards: " + Arrays.toString(hole));
 		}
 	}
 
-	private static void validateBoard (String[] board) {
+	private static void validateBoard (String[] board) { //checks if board exists
 		if (board != null) {
 			throw new RuntimeException("invalid board: " + Arrays.toString(board));
 		}
