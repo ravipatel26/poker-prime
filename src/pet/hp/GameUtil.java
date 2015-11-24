@@ -12,19 +12,6 @@ import pet.eq.impl.*;
  */
 public class GameUtil {
 	
-	/** poker equity functions */
-	private static final DrawPoker drawPoker = new DrawPoker(Value.hiValue);
-	private static final DrawPoker dsLowDrawPoker = new DrawPoker(Value.dsLowValue);
-	private static final DrawPoker afLowDrawPoker = new DrawPoker(Value.afLowValue);
-	private static final DrawPoker badugiPoker = new DrawPoker(Value.badugiValue);
-	private static final HEPoker holdemPoker = new HEPoker(false, false);
-	private static final HEPoker omahaPoker = new HEPoker(true, false);
-	private static final HEPoker omahaHLPoker = new HEPoker(true, true);
-	private static final StudPoker studPoker = new StudPoker(Value.hiValue, false);
-	private static final StudPoker studHLPoker = new StudPoker(Value.hiValue, true);
-	private static final StudPoker razzPoker = new StudPoker(Value.afLowValue, false);
-	private static final FiveStudPoker fiveCardStudPoker = new FiveStudPoker();
-	
 	private static final String[] hestreetnames = { "Pre-flop", "Flop", "Turn", "River" };
 	private static final String[] drawstreetnames = { "Pre-draw", "Post-draw" };
 	private static final String[] tripdrawstreetnames = { "Pre-draw", "Post-draw 1", "Post-draw 2", "Post-draw 3" };
@@ -221,32 +208,32 @@ public class GameUtil {
 	public static Poker getPoker(Game.Type gameType) {
 		switch (gameType) {
 			case FCD:
-				return drawPoker;
+				return new DrawPoker(Value.hiValue);
 			case HE:
-				return holdemPoker;
+				return new HEPoker(false, false);
 			case OM:
 			case OM5:
 			case OM51:
-				return omahaPoker;
+				return new HEPoker(true, false);
 			case OMHL:
 			case OM5HL:
 			case OM51HL:
-				return omahaHLPoker;
+				return new HEPoker(true, true);
 			case DSTD:
 			case DSSD:
-				return dsLowDrawPoker;
+				return new DrawPoker(Value.dsLowValue);
 			case AFTD:
-				return afLowDrawPoker;
+				return new DrawPoker(Value.afLowValue);
 			case STUD:
-				return studPoker;
+				return new StudPoker(Value.hiValue, false);
 			case RAZZ:
-				return razzPoker;
+				return new StudPoker(Value.afLowValue, false);
 			case STUDHL:
-				return studHLPoker;
+				return new StudPoker(Value.hiValue, true);
 			case BG:
-				return badugiPoker;
+				return new DrawPoker(Value.badugiValue);
 			case FSTUD:
-				return fiveCardStudPoker;
+				return new FiveStudPoker();
 			default:
 				throw new RuntimeException("no poker for game " + gameType);
 		}
