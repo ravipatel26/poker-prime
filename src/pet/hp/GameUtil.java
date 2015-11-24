@@ -218,7 +218,6 @@ public class GameUtil {
 	/**
 	 * Get poker equity function for game type.
 	 */
-	//POTENTIAL CODE SMELL??
 	public static Poker getPoker(Game.Type gameType) {
 		switch (gameType) {
 			case FCD:
@@ -256,7 +255,6 @@ public class GameUtil {
 	/**
 	 * get the hi rank names for the game type (not low ranks if hi/lo split)
 	 */
-	//POTENTIAL CODE SMELL??
 	public static String[] getRanksHi(Game.Type gameType) {
 		switch (gameType) {
 			case DSTD:
