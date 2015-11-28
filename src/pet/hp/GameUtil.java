@@ -12,19 +12,6 @@ import pet.eq.impl.*;
  */
 public class GameUtil {
 	
-	/** poker equity functions */
-	private static final DrawPoker drawPoker = new DrawPoker(Value.hiValue);
-	private static final DrawPoker dsLowDrawPoker = new DrawPoker(Value.dsLowValue);
-	private static final DrawPoker afLowDrawPoker = new DrawPoker(Value.afLowValue);
-	private static final DrawPoker badugiPoker = new DrawPoker(Value.badugiValue);
-	private static final HEPoker holdemPoker = new HEPoker(false, false);
-	private static final HEPoker omahaPoker = new HEPoker(true, false);
-	private static final HEPoker omahaHLPoker = new HEPoker(true, true);
-	private static final StudPoker studPoker = new StudPoker(Value.hiValue, false);
-	private static final StudPoker studHLPoker = new StudPoker(Value.hiValue, true);
-	private static final StudPoker razzPoker = new StudPoker(Value.afLowValue, false);
-	private static final FiveStudPoker fiveCardStudPoker = new FiveStudPoker();
-	
 	private static final String[] hestreetnames = { "Pre-flop", "Flop", "Turn", "River" };
 	private static final String[] drawstreetnames = { "Pre-draw", "Post-draw" };
 	private static final String[] tripdrawstreetnames = { "Pre-draw", "Post-draw 1", "Post-draw 2", "Post-draw 3" };
@@ -219,37 +206,8 @@ public class GameUtil {
 	 * Get poker equity function for game type.
 	 */
 	public static Poker getPoker(Game.Type gameType) {
-		switch (gameType) {
-			case FCD:
-				return drawPoker;
-			case HE:
-				return holdemPoker;
-			case OM:
-			case OM5:
-			case OM51:
-				return omahaPoker;
-			case OMHL:
-			case OM5HL:
-			case OM51HL:
-				return omahaHLPoker;
-			case DSTD:
-			case DSSD:
-				return dsLowDrawPoker;
-			case AFTD:
-				return afLowDrawPoker;
-			case STUD:
-				return studPoker;
-			case RAZZ:
-				return razzPoker;
-			case STUDHL:
-				return studHLPoker;
-			case BG:
-				return badugiPoker;
-			case FSTUD:
-				return fiveCardStudPoker;
-			default:
-				throw new RuntimeException("no poker for game " + gameType);
-		}
+
+		return PokerFactory.getInstance().getPoker(gameType);
 	}
 	
 	/**
