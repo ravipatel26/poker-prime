@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.util.*;
 
+import pet.hp.impl.Parser2;
+
 /**
  * represents a single hand at a table.
  * No analysis - see HandUtil, HandInfo and HandState.
@@ -111,6 +113,44 @@ public class Hand implements Serializable {
 		DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
 		return String.format("Hand[%s '%s' at '%s' on %s seats=%s str=%d]", 
 				id & ~ROOM, game, tablename, df.format(new Date(date)), seats != null ? seats.length : -1, streets != null ? streets.length : -1);
+	}
+
+	public void validateHand (Parser2 parser2) {
+		parser2.assert_(date != 0, "has date");
+		parser2.assertObj(game, "game");
+		parser2.assert_(bb > 0, "bb");
+		parser2.assert_(sb > 0 && sb < bb, "sb");
+		parser2.assert_(ante >= 0, "ante");
+		if (GameUtil.isStud(game.type)) {
+			parser2.assert_(button == 0, "no button: " + button);
+		} else {
+			parser2.assert_(button != 0, "has button");
+		}
+		int bs = board != null ? board.length : 0;
+		parser2.assert_(bs <= GameUtil.getBoard(game.type), "board");
+		parser2.assert_(id != 0, "has id");
+		parser2.assert_((id & Hand.ROOM) != 0, "hand room");
+		if (tourn != null) {
+			parser2.assert_((tourn.id & Hand.ROOM) != 0, "tourn room");
+		}
+		parser2.assertObj(myseat, "my seat");
+		int maxstr = GameUtil.getStreets(game.type);
+		if (showdown) {
+			parser2.assert_(parser2.streets.size() == maxstr, "streets " + parser2.streets.size() + " = max str " + maxstr + " for showdown");
+		} else {
+			parser2.assert_(parser2.streets.size() <= maxstr, "streets");
+		}
+		if (!GameUtil.isHilo(game.type)) {
+			parser2.assert_(!showdownNoLow, "no low for non hilo");
+		}
+		if (GameUtil.isDraw(game.type)) {
+			int d = GameUtil.getHoleCards(game.type);
+			parser2.assert_(myDrawCards0.length == d, "draw0");
+			for (int n = 1; n < 3; n++) {
+				String[] c = myDrawCards(n);
+				parser2.assert_(c == null || c.length == d, "draw: " + Arrays.toString(c));
+			}
+		}
 	}
 	
 }

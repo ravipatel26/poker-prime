@@ -24,7 +24,7 @@ public abstract class Parser2 extends Parser {
 	/** map of player name to seat for current hand */
 	protected final Map<String, Seat> seatsMap = new TreeMap<>();
 	/** streets of action for current hand */
-	protected final List<List<Action>> streets = new ArrayList<>();
+	public final List<List<Action>> streets = new ArrayList<>();
 	
 	public Parser2() {
 		//
@@ -33,7 +33,7 @@ public abstract class Parser2 extends Parser {
 	/**
 	 * throw exception if condition is false
 	 */
-	protected void assert_ (boolean cond, String condDesc) {
+	public void assert_ (boolean cond, String condDesc) {
 		if (!cond) {
 			throw new RuntimeException("Assertion failed: " + condDesc);
 		}
@@ -42,7 +42,7 @@ public abstract class Parser2 extends Parser {
 	/**
 	 * throw exception if object is false
 	 */
-	protected void assertObj (Object obj, String objDesc) {
+	public void assertObj (Object obj, String objDesc) {
 		if (obj == null) {
 			throw new RuntimeException("Assertion failed: object is null: " + objDesc);
 		}
@@ -81,7 +81,7 @@ public abstract class Parser2 extends Parser {
 	 * validate and finalise hand
 	 */
 	protected void finish () {
-		validateHand();
+		hand.validateHand(this);
 		validatePot();
 		validateSeats();
 		validateActions();
@@ -183,44 +183,6 @@ public abstract class Parser2 extends Parser {
 			assert_(s >= 2, "2 seat showdown");
 		} else {
 			assert_(s == 0, "no seats showdown");
-		}
-	}
-	
-	private void validateHand () {
-		assert_(hand.date != 0, "has date");
-		assertObj(hand.game, "game");
-		assert_(hand.bb > 0, "bb");
-		assert_(hand.sb > 0 && hand.sb < hand.bb, "sb");
-		assert_(hand.ante >= 0, "ante");
-		if (GameUtil.isStud(hand.game.type)) {
-			assert_(hand.button == 0, "no button: " + hand.button);
-		} else {
-			assert_(hand.button != 0, "has button");
-		}
-		int bs = hand.board != null ? hand.board.length : 0;
-		assert_(bs <= GameUtil.getBoard(hand.game.type), "board");
-		assert_(hand.id != 0, "has id");
-		assert_((hand.id & Hand.ROOM) != 0, "hand room");
-		if (hand.tourn != null) {
-			assert_((hand.tourn.id & Hand.ROOM) != 0, "tourn room");
-		}
-		assertObj(hand.myseat, "my seat");
-		int maxstr = GameUtil.getStreets(hand.game.type);
-		if (hand.showdown) {
-			assert_(streets.size() == maxstr, "streets " + streets.size() + " = max str " + maxstr + " for showdown");
-		} else {
-			assert_(streets.size() <= maxstr, "streets");
-		}
-		if (!GameUtil.isHilo(hand.game.type)) {
-			assert_(!hand.showdownNoLow, "no low for non hilo");
-		}
-		if (GameUtil.isDraw(hand.game.type)) {
-			int d = GameUtil.getHoleCards(hand.game.type);
-			assert_(hand.myDrawCards0.length == d, "draw0");
-			for (int n = 1; n < 3; n++) {
-				String[] c = hand.myDrawCards(n);
-				assert_(c == null || c.length == d, "draw: " + Arrays.toString(c));
-			}
 		}
 	}
 	
