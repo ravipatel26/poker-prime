@@ -34,15 +34,8 @@ public class MEquityUtil {
 	 */
 	public static void updateCurrent(MEquity[] meqs, Equity.Type eqtype, int[] vals) {
 		int max = 0, times = 0;
-		for (int i = 0; i < vals.length; i++) {
-			int v = vals[i];
-			if (v > max) {
-				max = v;
-				times = 1;
-			} else if (v == max) {
-				times++;
-			}
-		}
+		times = times(vals, max, times);
+		max = max(vals, max);
 		// only set curwin, curtie if there actually is non zero current value
 		if (max > 0) {
 			for (int i = 0; i < vals.length; i++) {
@@ -57,6 +50,29 @@ public class MEquityUtil {
 				}
 			}
 		}
+	}
+
+	private static int max(int[] vals, int max) {
+		for (int i = 0; i < vals.length; i++) {
+			int v = vals[i];
+			if (v > max) {
+				max = v;
+			}
+		}
+		return max;
+	}
+
+	private static int times(int[] vals, int max, int times) {
+		for (int i = 0; i < vals.length; i++) {
+			int v = vals[i];
+			if (v > max) {
+				max = v;
+				times = 1;
+			} else if (v == max) {
+				times++;
+			}
+		}
+		return times;
 	}
 	
 	/**
