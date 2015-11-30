@@ -147,31 +147,7 @@ public class GameUtil {
 	
 	/** get street names for game type */
 	private static String[] getStreetNames (Game.Type gametype) {
-		switch (gametype) {
-			case FSTUD:
-				return fcstudstreetnames;
-			case FCD:
-			case DSSD:
-				return drawstreetnames;
-			case HE:
-			case OM:
-			case OMHL:
-			case OM5:
-			case OM51:
-			case OM5HL:
-			case OM51HL:
-				return hestreetnames;
-			case BG:
-			case DSTD:
-			case AFTD:
-				return tripdrawstreetnames;
-			case STUD:
-			case STUDHL:
-			case RAZZ:
-				return studstreetnames;
-			default:
-				throw new RuntimeException("no such game type " + gametype);
-		}
+		return getGametypeObject(gametype).getStreetNames(gametype);
 	}
 	
 	/** return true if this street is the showdown street for the given game type */
@@ -406,5 +382,63 @@ public class GameUtil {
 			default:
 				throw new RuntimeException();
 		}
+	}
+
+	private static Gametype getGametypeObject(Game.Type gametype) {
+		switch (gametype) {
+		case FSTUD:
+			return new Fstud();
+		case FCD:
+			return new Fcd();
+		case DSSD:
+			return new Dssd();
+		case HE:
+			return new He();
+		case OM:
+			return new Om();
+		case OMHL:
+			return new Omhl();
+		case OM5:
+			return new Om5();
+		case OM51:
+			return new Om51();
+		case OM5HL:
+			return new Om5hl();
+		case OM51HL:
+			return new Om51hl();
+		case BG:
+			return new Bg();
+		case DSTD:
+			return new Dstd();
+		case AFTD:
+			return new Aftd();
+		case STUD:
+			return new Stud();
+		case STUDHL:
+			return new Studhl();
+		case RAZZ:
+			return new Razz();
+		}
+		return null;
+	}
+
+	public static String[] getFcstudstreetnames() {
+		return fcstudstreetnames;
+	}
+
+	public static String[] getDrawstreetnames() {
+		return drawstreetnames;
+	}
+
+	public static String[] getHestreetnames() {
+		return hestreetnames;
+	}
+
+	public static String[] getTripdrawstreetnames() {
+		return tripdrawstreetnames;
+	}
+
+	public static String[] getStudstreetnames() {
+		return studstreetnames;
 	}
 }
