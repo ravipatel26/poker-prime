@@ -535,6 +535,7 @@ public abstract class Poker {
 		
 		int[] a = new int[uniqueValueSet.size()];
 		int i = 0;
+		
 		for (int v : uniqueValueSet) {
 			a[i++] = v;
 		}
